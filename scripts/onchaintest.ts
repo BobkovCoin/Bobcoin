@@ -37,7 +37,7 @@ async function onchainTestScript() {
     "?" +
     qs.stringify({
       text: "Simple test transaction",
-      amount: toNano("0,05").toString(10),
+      amount: toNano("0.05").toString(10),
     });
 
   qrcode.generate(link, { small: true }, (code) => {

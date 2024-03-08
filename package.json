@@ -27,9 +27,9 @@
   "scripts": {
     "compile": "ts-node ./scripts/compile.ts",
     "test": "yarn compile && yarn jest",
-    "deploy": "yarn compile && TESTNET=true ts-node ./scripts/deploy.ts",
+    "deploy": "yarn compile && set TESTNET=true && ts-node ./scripts/deploy.ts",
     "deploy:mainnet": "yarn compile && ts-node ./scripts/deploy.ts",
-    "onchaintest": "TESTNET=true ts-node ./scripts/onchaintest.ts",
+    "onchaintest": "set TESTNET=true && ts-node ./scripts/onchaintest.ts",
     "onchaintest:mainnet": "ts-node ./scripts/onchaintest.ts"
   },
   "dependencies": {
