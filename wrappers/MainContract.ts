@@ -12,12 +12,14 @@ import {
 export type MainContractConfig = {
   number: number;
   address: Address;
+  owner_address: Address;
 };
 
 export function mainContractConfigToCell(config: MainContractConfig): Cell {
   return beginCell()
   .storeUint(config.number, 32)
   .storeAddress(config.address)
+  .storeAddress(config.owner_address)
   .endCell();
 }
 
@@ -56,11 +58,55 @@ export class MainContract implements Contract {
       body: msg_body,
     });
   }
+
+  async sendDeposit(provider: ContractProvider, sender: Sender, value: bigint){
+    const msg_body = beginCell()
+      .storeUint(2, 32) //2 opcode
+      .endCell();
+    
+      await provider.internal(sender, {
+      value,
+      sendMode: SendMode.PAY_GAS_SEPARATELY,
+      body: msg_body,
+    });
+  }
+
+  async sendNoCodeDeposit(provider: ContractProvider, sender: Sender, value: bigint){
+    const msg_body = beginCell().endCell();
+
+    await provider.internal(sender, {
+      value,
+      sendMode: SendMode.PAY_GAS_SEPARATELY,
+      body: msg_body,
+    });
+  }
+
+  async sendWithdrawalRequest(provider: ContractProvider, sender: Sender, value: bigint, amount: bigint){
+    const msg_body = beginCell()
+      .storeUint(3, 32)
+      .storeCoins(amount)
+      .endCell();
+
+    await provider.internal(sender, {
+      value,
+      sendMode: SendMode.PAY_GAS_SEPARATELY,
+      body: msg_body,
+    });
+  }
+
   async getData(provider: ContractProvider) {
     const { stack } = await provider.get("get_contract_storage_data", []);
     return {
       number: stack.readNumber(),
       recent_sender: stack.readAddress(),
+      owner_address: stack.readAddress (),
     };
-}
+  }
+
+  async getBalance(provider: ContractProvider){
+    const { stack } = await provider.get("balance", [])
+    return {
+      balance: stack.readNumber(),  
+    }
+  }
 }
