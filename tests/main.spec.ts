@@ -3,7 +3,7 @@ import { hex } from "../build/main.compiled.json";
 import { Blockchain, SandboxContract, Treasury, TreasuryContract } from "@ton-community/sandbox";
 import { MainContract, mainContractConfigToCell } from "../wrappers/MainContract";
 import "@ton-community/test-utils";
-import { Init } from "v8";
+import { compile } from "@ton-community/blueprint";
 
 describe("main.fc contract tests", () => {
 
@@ -11,15 +11,17 @@ describe("main.fc contract tests", () => {
   let myContract: SandboxContract<MainContract>;
   let initWallet: SandboxContract<TreasuryContract>;
   let ownerWallet: SandboxContract<TreasuryContract>;
+  let codeCell: Cell;
 
-  
+  beforeAll( async () => {
+    codeCell = await compile("MainContract")
+  });
+
   beforeEach(async () => {
 
     blockchain = await Blockchain.create();
     initWallet = await blockchain.treasury("initWallet");
     ownerWallet = await blockchain.treasury("ownerWallet");
-
-    const codeCell = Cell.fromBoc(Buffer.from(hex, "hex"))[0];
 
     myContract = blockchain.openContract(
       await MainContract.createFromConfig(
@@ -31,7 +33,7 @@ describe("main.fc contract tests", () => {
         codeCell
       )
     )
-  })
+  });
 
 
   it("Should successfully increase counter in contract and get the proper most recent sender address", async () => {

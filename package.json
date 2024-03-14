@@ -7,6 +7,7 @@
   "license": "MIT",
   "devDependencies": {
     "@swc/core": "^1.4.2",
+    "@ton-community/blueprint": "^0.12.0",
     "@ton-community/func-js": "^0.6.3",
     "@ton-community/sandbox": "^0.11.0",
     "@ton-community/test-utils": "^0.3.0",
@@ -25,12 +26,7 @@
     "typescript": "^5.3.3"
   },
   "scripts": {
-    "compile": "ts-node ./scripts/compile.ts",
-    "test": "yarn compile && yarn jest",
-    "deploy": "yarn compile && set TESTNET=true && ts-node ./scripts/deploy.ts",
-    "deploy:mainnet": "yarn compile && ts-node ./scripts/deploy.ts",
-    "onchaintest": "set TESTNET=true && ts-node ./scripts/onchaintest.ts",
-    "onchaintest:mainnet": "ts-node ./scripts/onchaintest.ts"
+    "test": "yarn jest"
   },
   "dependencies": {
     "@orbs-network/ton-access": "^2.3.3",
