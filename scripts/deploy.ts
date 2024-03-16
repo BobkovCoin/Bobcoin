@@ -7,8 +7,8 @@ export async function run(provider: NetworkProvider){
 
   const myContract = MainContract.createFromConfig({
     number: 0,
-    address: address("UQAXBTTv196DUEc0K2MQvPvBq6HlNIdfmlKOmF2QLaPqtYmd"),
-    owner_address: address("UQAXBTTv196DUEc0K2MQvPvBq6HlNIdfmlKOmF2QLaPqtYmd"),
+    address: address("0QDu1tbkV_LsOHew8akHM4ycOeoH1mg-6UktbpMZobRyaicS"),
+    owner_address: address("0QDu1tbkV_LsOHew8akHM4ycOeoH1mg-6UktbpMZobRyaicS"),
     },
     codeCell
   );
